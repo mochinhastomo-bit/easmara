@@ -1,0 +1,9 @@
+@import "variables";
+@import "bootstrap/scss/bootstrap";
+@import "datatables.net-bs5/css/dataTables.bootstrap5.css";
+@import "datatables.net-responsive-bs5/css/responsive.bootstrap5.css";
+
+// z-index kustom lewat class (bukan inline style) supaya lolos CSP style-src ketat
+.z-toast {
+    z-index: 1080;
+}
