@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const table = $(tableEl).DataTable({
         processing: true, serverSide: true,
-        ajax: tableEl.dataset.routeData,
+        ajax: AdminCrud.dtAjax(tableEl.dataset.routeData),
         order: [[3, 'desc']],
         columns: [
             { data: 'nama', name: 'nama' },
@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const btn = e.target.closest('.btn-lihat-pesan');
         if (!btn) return;
 
-        fetch(btn.dataset.url, { headers: { Accept: 'application/json' } })
-            .then((res) => res.json())
+        AdminCrud.postJson(btn.dataset.url)
             .then((data) => {
                 document.getElementById('pesanNama').textContent = data.nama;
                 document.getElementById('pesanEmail').textContent = data.email || '—';
@@ -33,7 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 currentUpdateUrl = btn.dataset.updateUrl;
                 modal.show();
                 table.ajax.reload(null, false);
-            });
+            })
+            .catch(() => AdminCrud.showToast('Gagal memuat pesan.', 'danger'));
     });
 
     document.getElementById('btnSimpanStatusPesan').addEventListener('click', function () {

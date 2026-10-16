@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $(tableEl).DataTable({
         processing: true, serverSide: true,
-        ajax: tableEl.dataset.routeData,
+        ajax: AdminCrud.dtAjax(tableEl.dataset.routeData),
         order: [[0, 'desc']],
         columns: [
             { data: 'created_at_fmt', name: 'created_at_fmt' },

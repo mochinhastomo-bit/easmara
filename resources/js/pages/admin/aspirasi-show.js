@@ -31,3 +31,22 @@ document.addEventListener('DOMContentLoaded', function () {
         pdfEl.src = '';
     });
 });
+
+// Form aksi di halaman detail (verifikasi, salurkan, tindak lanjut, tinjauan pimpinan):
+// kirim via AJAX, tampilkan toast, lalu muat ulang area detail tanpa refresh halaman.
+document.addEventListener('submit', function (e) {
+    const form = e.target.closest('form[data-ajax-form]');
+    if (!form) return;
+    e.preventDefault();
+
+    AdminCrud.ajaxSubmit(form, {
+        onSuccess: () => {
+            fetch(window.location.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then((res) => res.text())
+                .then((html) => {
+                    const fresh = new DOMParser().parseFromString(html, 'text/html').getElementById('detailAspirasi');
+                    if (fresh) document.getElementById('detailAspirasi').innerHTML = fresh.innerHTML;
+                });
+        },
+    });
+});

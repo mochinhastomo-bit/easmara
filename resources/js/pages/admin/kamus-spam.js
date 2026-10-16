@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const tabelKamus = $(tableKamusEl).DataTable({
         processing: true, serverSide: true,
-        ajax: tableKamusEl.dataset.routeData,
+        ajax: AdminCrud.dtAjax(tableKamusEl.dataset.routeData),
         columns: [
             { data: 'kata', name: 'kata' },
             { data: 'bobot_skor', name: 'bobot_skor' },
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const tabelUsulan = $(tableUsulanEl).DataTable({
         processing: true, serverSide: true,
-        ajax: tableUsulanEl.dataset.routeData,
+        ajax: AdminCrud.dtAjax(tableUsulanEl.dataset.routeData),
         columns: [
             { data: 'kata', name: 'kata' },
             { data: 'diusulkan_oleh_nama', name: 'diusulkanOleh.name' },

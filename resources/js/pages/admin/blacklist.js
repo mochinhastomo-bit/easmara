@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const table = $(tableEl).DataTable({
         processing: true, serverSide: true,
-        ajax: tableEl.dataset.routeData,
+        ajax: AdminCrud.dtAjax(tableEl.dataset.routeData),
         columns: [
             { data: 'no_hp', name: 'no_hp_enc', orderable: false, searchable: false },
             { data: 'alasan', name: 'alasan', defaultContent: '—' },

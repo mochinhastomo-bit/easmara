@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $(tableEl).DataTable({
         processing: true,
         serverSide: true,
-        ajax: tableEl.dataset.routeData,
+        ajax: AdminCrud.dtAjax(tableEl.dataset.routeData),
         columns: [
             { data: 'kode_tiket', name: 'kode_tiket' },
             { data: 'nama_pelapor', name: 'nama_pelapor' },

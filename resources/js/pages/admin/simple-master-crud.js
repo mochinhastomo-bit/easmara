@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const table = $('#tabel' + slug).DataTable({
             processing: true,
             serverSide: true,
-            ajax: routeData,
+            ajax: AdminCrud.dtAjax(routeData),
             columns: [
                 { data: 'nama', name: 'nama' },
                 { data: 'deskripsi', name: 'deskripsi', defaultContent: '—' },

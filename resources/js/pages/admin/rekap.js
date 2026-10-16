@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('formFilter');
     const dataUrl = form.dataset.routeData;
-    const excelUrl = form.dataset.routeExportExcel;
-    const pdfUrl = form.dataset.routeExportPdf;
 
     function renderList(elId, obj) {
         const el = document.getElementById(elId);
@@ -17,9 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function muatData() {
-        const params = new URLSearchParams(new FormData(form)).toString();
-        fetch(dataUrl + '?' + params, { headers: { Accept: 'application/json' } })
-            .then((res) => res.json())
+        AdminCrud.postJson(dataUrl, new FormData(form))
             .then((json) => {
                 document.getElementById('statTotal').textContent = json.total;
                 document.getElementById('statSelesai').textContent = json.selesai;
@@ -27,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 renderList('listKomisi', json.per_komisi);
                 renderList('listKecamatan', json.per_kecamatan);
                 renderList('listStatus', json.per_status);
-                document.getElementById('linkExportExcel').href = excelUrl + '?' + params;
-                document.getElementById('linkExportPdf').href = pdfUrl + '?' + params;
             })
             .catch(() => AdminCrud.showToast('Gagal memuat data rekap.', 'danger'));
     }
 
     form.addEventListener('submit', function (e) {
+        // Tombol export (formaction sendiri) dibiarkan submit native -> unduhan file via POST.
+        if (e.submitter && e.submitter.hasAttribute('formaction')) return;
         e.preventDefault();
         muatData();
     });

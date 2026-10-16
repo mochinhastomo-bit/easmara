@@ -10,7 +10,13 @@ document.getElementById('kecamatan_select').addEventListener('change', function 
         return;
     }
 
-    fetch(`/aspirasi/wilayah/${kecamatanId}/desa`)
+    fetch(`/aspirasi/wilayah/${kecamatanId}/desa`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            Accept: 'application/json',
+        },
+    })
         .then((res) => res.json())
         .then((data) => {
             wilayahSelect.innerHTML = '<option value="">Pilih desa/kelurahan&hellip;</option>';

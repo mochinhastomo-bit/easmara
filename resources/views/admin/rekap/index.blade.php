@@ -8,10 +8,9 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <form id="formFilter" class="row g-2 align-items-end"
-                  data-route-data="{{ route('admin.rekap.data') }}"
-                  data-route-export-excel="{{ route('admin.rekap.export-excel') }}"
-                  data-route-export-pdf="{{ route('admin.rekap.export-pdf') }}">
+            <form id="formFilter" method="POST" class="row g-2 align-items-end"
+                  data-route-data="{{ route('admin.rekap.data') }}">
+                @csrf
                 <div class="col-md-2">
                     <label class="form-label small">Dari Tanggal</label>
                     <input type="date" name="periode_dari" class="form-control form-control-sm">
@@ -52,8 +51,8 @@
                 </div>
             </form>
             <div class="mt-2">
-                <a href="#" id="linkExportExcel" class="btn btn-sm btn-outline-success">Export Excel</a>
-                <a href="#" id="linkExportPdf" class="btn btn-sm btn-outline-danger">Cetak PDF</a>
+                <button type="submit" form="formFilter" formaction="{{ route('admin.rekap.export-excel') }}" formmethod="POST" class="btn btn-sm btn-outline-success">Export Excel</button>
+                <button type="submit" form="formFilter" formaction="{{ route('admin.rekap.export-pdf') }}" formmethod="POST" class="btn btn-sm btn-outline-danger">Cetak PDF</button>
             </div>
         </div>
     </div>

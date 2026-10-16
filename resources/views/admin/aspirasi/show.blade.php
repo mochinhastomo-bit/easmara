@@ -9,6 +9,7 @@
         <a href="{{ route('admin.aspirasi.index') }}" class="btn btn-sm btn-outline-secondary">&larr; Kembali</a>
     </div>
 
+    <div id="detailAspirasi">
     <div class="row g-3">
         <div class="col-lg-7">
             <div class="card mb-3">
@@ -106,7 +107,7 @@
                         <span class="badge text-bg-{{ \App\Support\StatusWarna::verifikasi($aspirasi->status_verifikasi) }}">{{ ucfirst($aspirasi->status_verifikasi) }}</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.aspirasi.verifikasi', $aspirasi) }}">
+                        <form method="POST" action="{{ route('admin.aspirasi.verifikasi', $aspirasi) }}" data-ajax-form>
                             @csrf
                             <div class="mb-2">
                                 <label class="form-label small">Status Verifikasi</label>
@@ -134,7 +135,7 @@
                 <div class="card mb-3">
                     <div class="card-header">Salurkan ke Komisi</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.aspirasi.salurkan', $aspirasi) }}">
+                        <form method="POST" action="{{ route('admin.aspirasi.salurkan', $aspirasi) }}" data-ajax-form>
                             @csrf
                             @foreach ($komisiList as $komisi)
                                 <div class="form-check">
@@ -163,7 +164,7 @@
                             <span class="badge text-bg-{{ \App\Support\StatusWarna::tindakLanjut($pivot->status_tindak_lanjut) }}">{{ ucfirst($pivot->status_tindak_lanjut) }}</span>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('admin.aspirasi.tindak-lanjut', $aspirasi) }}">
+                            <form method="POST" action="{{ route('admin.aspirasi.tindak-lanjut', $aspirasi) }}" data-ajax-form>
                                 @csrf
                                 <input type="hidden" name="aspirasi_komisi_id" value="{{ $pivot->id }}">
                                 <div class="mb-2">
@@ -191,7 +192,7 @@
                         <span class="badge text-bg-{{ \App\Support\StatusWarna::pimpinan($aspirasi->status_pimpinan) }}">{{ ucfirst($aspirasi->status_pimpinan ?? 'menunggu') }}</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.aspirasi.pimpinan', $aspirasi) }}">
+                        <form method="POST" action="{{ route('admin.aspirasi.pimpinan', $aspirasi) }}" data-ajax-form>
                             @csrf
                             <div class="mb-2">
                                 <select name="status_pimpinan" class="form-select form-select-sm">
@@ -209,6 +210,7 @@
                 </div>
             @endcan
         </div>
+    </div>
     </div>
 
     <div class="modal fade" id="modalLampiran" tabindex="-1">

@@ -32,13 +32,22 @@ function clearFormErrors(form) {
 }
 
 function showFormErrors(form, errors) {
+    let shown = false;
     Object.entries(errors).forEach(([field, messages]) => {
         const input = form.querySelector(`[name="${field}"]`);
         if (!input) return;
         input.classList.add('is-invalid');
         const feedback = input.closest('.mb-2, .mb-3, .form-check')?.querySelector('.invalid-feedback');
-        if (feedback) feedback.textContent = messages[0];
+        if (feedback) {
+            feedback.textContent = messages[0];
+            shown = true;
+        }
     });
+    // Form tanpa elemen .invalid-feedback (mis. form di halaman detail): tampilkan lewat toast.
+    if (!shown) {
+        const first = Object.values(errors)[0]?.[0];
+        if (first) showToast(first, 'danger');
+    }
 }
 
 function csrfToken() {
@@ -123,4 +132,37 @@ export function ajaxAction(url, { method = 'POST', data = {}, onSuccess, confirm
             }
         })
         .catch(() => showToast('Gagal menghubungi server.', 'danger'));
+}
+
+/**
+ * Opsi `ajax` DataTables server-side lewat POST + token CSRF (bukan GET),
+ * supaya parameter pencarian/urutan tidak masuk query string URL.
+ */
+export function dtAjax(url) {
+    return {
+        url,
+        type: 'POST',
+        cache: true,
+        headers: { 'X-CSRF-TOKEN': csrfToken() },
+    };
+}
+
+/**
+ * POST non-form yang mengharap JSON balik (menggantikan fetch GET untuk ambil data).
+ * `data` bisa objek biasa atau instance FormData.
+ */
+export function postJson(url, data = {}) {
+    const body = data instanceof FormData ? data : new FormData();
+    if (!(data instanceof FormData)) {
+        Object.entries(data).forEach(([k, v]) => body.append(k, v));
+    }
+
+    return fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrfToken(), Accept: 'application/json' },
+        body,
+    }).then((res) => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+    });
 }

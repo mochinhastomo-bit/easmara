@@ -112,7 +112,7 @@ class AspirasiAdminController extends Controller
 
         $this->catatAudit('verifikasi_aspirasi', $aspirasi, $sebelum, $aspirasi->only(['status_verifikasi', 'is_spam']));
 
-        return back()->with('status', 'Status verifikasi berhasil diperbarui.');
+        return response()->json(['message' => 'Status verifikasi berhasil diperbarui.']);
     }
 
     public function salurkan(Request $request, Aspirasi $aspirasi)
@@ -144,7 +144,7 @@ class AspirasiAdminController extends Controller
 
         $this->catatAudit('salurkan_aspirasi', $aspirasi, null, ['komisi_id' => $data['komisi_id']]);
 
-        return back()->with('status', 'Aspirasi berhasil disalurkan.');
+        return response()->json(['message' => 'Aspirasi berhasil disalurkan.']);
     }
 
     #[Authorize('updateTindakLanjut', 'aspirasi')]
@@ -171,7 +171,7 @@ class AspirasiAdminController extends Controller
 
         $this->catatAudit('update_tindak_lanjut', $aspirasi, ['status' => $sebelum], ['status' => $data['status_tindak_lanjut']]);
 
-        return back()->with('status', 'Status tindak lanjut komisi berhasil diperbarui.');
+        return response()->json(['message' => 'Status tindak lanjut komisi berhasil diperbarui.']);
     }
 
     public function updatePimpinan(Request $request, Aspirasi $aspirasi)
@@ -196,7 +196,7 @@ class AspirasiAdminController extends Controller
 
         $this->catatAudit('tinjau_pimpinan', $aspirasi, $sebelum, $data);
 
-        return back()->with('status', 'Catatan Pimpinan berhasil disimpan.');
+        return response()->json(['message' => 'Catatan Pimpinan berhasil disimpan.']);
     }
 
     private function catatAudit(string $aksi, Aspirasi $aspirasi, ?array $dataLama, ?array $dataBaru): void
